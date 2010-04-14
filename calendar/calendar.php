@@ -116,7 +116,6 @@ class calendar extends rcube_plugin
     return $args;
   }
 
-
   function startup($template = 'calendar.calendar') {
     $temparr = explode(".", $template);
     $domain = $temparr[0];
@@ -406,7 +405,7 @@ class calendar extends rcube_plugin
     $select = "<select name=\"categories\">\n";
     $select .= "<option value=\"\"></option>\n";
     foreach ($categories as $class => $color) {
-      $select .= "<option value=\"" . $class . "\">" . $this->gettext($class) . "</option>\n";
+      $select .= "<option value=\"" . $class . "\">" . $class . "</option>\n";
     }
     $select .= "</select>";
 

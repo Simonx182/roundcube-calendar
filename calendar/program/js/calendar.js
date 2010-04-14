@@ -62,60 +62,6 @@ $(document).ready(function() {
         rcmail.set_busy(true,'loading');
       } else {
         rcmail.set_busy(false,'loading');
-        /* datepicker localization */
-        Date.dayNames = [
-                          response.settings['days'][0],
-                          response.settings['days'][1],
-                          response.settings['days'][2],
-                          response.settings['days'][3],
-                          response.settings['days'][4],
-                          response.settings['days'][5],
-                          response.settings['days'][6]
-                         ];
-        Date.abbrDayNames = [
-                          response.settings['days_short'][0],
-                          response.settings['days_short'][1],
-                          response.settings['days_short'][2],
-                          response.settings['days_short'][3],
-                          response.settings['days_short'][4],
-                          response.settings['days_short'][5],
-                          response.settings['days_short'][6]
-                            ];
-        Date.monthNames = [
-                          response.settings['months'][0],
-                          response.settings['months'][1],
-                          response.settings['months'][2],
-                          response.settings['months'][3],
-                          response.settings['months'][4],
-                          response.settings['months'][5],
-                          response.settings['months'][6],
-                          response.settings['months'][7],
-                          response.settings['months'][8],
-                          response.settings['months'][9],
-                          response.settings['months'][10],
-                          response.settings['months'][11]
-                          ];
-        Date.abbrMonthNames = [
-                          response.settings['months_short'][0],
-                          response.settings['months_short'][1],
-                          response.settings['months_short'][2],
-                          response.settings['months_short'][3],
-                          response.settings['months_short'][4],
-                          response.settings['months_short'][5],
-                          response.settings['months_short'][6],
-                          response.settings['months_short'][7],
-                          response.settings['months_short'][8],
-                          response.settings['months_short'][9],
-                          response.settings['months_short'][10],
-                          response.settings['months_short'][11]
-                          ];
-
-        Date.firstDayOfWeek = response.settings['first_day'];
-        
-        /* refresh print preview */
-        if(calpopup){
-          previewPrintEvents();
-        }
       }
     },    
     eventRender: function(event, element, view) {
@@ -130,31 +76,9 @@ $(document).ready(function() {
         }
         if (event.description) {
           if(!event.allDay){
-            var mydescription = event.description;
-            if(mydescription.length > 20)
-              mydescription = mydescription.substring(0,20) + " ...";
-            element.find('span.fc-event-title').after("<span class=\"fc-event-description\">"+mydescription+"</span>");
+            element.find('span.fc-event-title').after("<span class=\"fc-event-description\">"+event.description+"</span>");
           }
         }
-      }
-      if(event.description.length && event.description.length > 20) {
-        element.qtip({
-          content: {
-            text: "<pre>"+event.description+"</pre>"
-          },
-          position: {
-            corner: {
-              target: 'mouse',
-              tooltip: 'bottomLeft'
-            },
-            hide: {
-              fixed: true,
-              when: {
-                event: 'mouseout'
-              }
-            }
-          }
-        });
       }
     },
     eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
@@ -261,48 +185,6 @@ $(document).ready(function() {
     $dialogContent.find("select").val("");
   }
   
-  /* datepicker localization */
-  $.dpText = {
-    TEXT_PREV_YEAR: rcmail.gettext('prev_year','calendar'),
-    TEXT_PREV_MONTH: rcmail.gettext('prev_month','calendar'),
-    TEXT_NEXT_YEAR: rcmail.gettext('next_year','calendar'),
-    TEXT_NEXT_MONTH: rcmail.gettext('next_month','calendar'),
-    TEXT_CLOSE: rcmail.gettext('cancel','calendar'),
-    TEXT_CHOOSE_DATE: rcmail.gettext('choose_date','calendar'),
-    HEADER_FORMAT: 'mmmm yyyy'
-  }
-  
-  /* datepicker initialization */
-  $(function()
-  {
-    Date.format = 'dd/mm/yyyy';
-    var dp_start = '01/01/1900';
-
-    $('.date-pick')
-      .datePicker({
-        createButton:false,
-        startDate:dp_start,
-        displayClose:true
-      })
-      .bind(
-        'click',
-        function()
-        {
-          $(this).dpDisplay();
-          this.blur();
-          return false;
-        }
-      )
-      .bind(
-        'dateSelected',
-        function(e, selectedDate, $td)
-        {
-          $('#calendar').fullCalendar( 'gotoDate', $.fullCalendar.parseDate(selectedDate));
-        }
-      );
-      $('#dp_position').dpSetPosition($.dpConst.POS_BOTTOM, $.dpConst.POS_RIGHT);
-  });
-  
   /* enable GUI commands */
   /* export events */
   function exportEvents() {
@@ -310,12 +192,6 @@ $(document).ready(function() {
   }
   rcmail.register_command('plugin.exportEvents', exportEvents, true);
   
-  /* date picker */
-  function selectDate() {
-    return true;
-  }
-  rcmail.register_command('plugin.calendar_datepicker', selectDate, true);
-
   /* print events */
   var calpopup;
   function previewPrintEvents(){

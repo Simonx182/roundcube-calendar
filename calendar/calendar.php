@@ -137,12 +137,7 @@ class calendar extends rcube_plugin
     $this->register_handler('plugin.category_css', array($this, 'generateCSS'));
     $this->register_handler('plugin.category_html', array($this, 'generateHTML'));
 
-    $this->include_script('program/js/jquery-ui.js');
-    if($template == "calendar") {
-      $this->include_script('program/js/jquery-qtip.js');
-      $this->include_script('program/js/date.js');
-      $this->include_script('program/js/jquery.datePicker.js');
-    }
+    $this->include_script('program/js/jquery-ui.js'); 
     $this->include_script('program/js/fullcalendar.min.js');
     $this->include_script("program/js/$template.js");
     
@@ -153,16 +148,6 @@ class calendar extends rcube_plugin
         'title' => 'print',
         'imagepas' => 'skins/' . $skin . '/images/spacer.gif',
         'imageact' => 'skins/' . $skin . '/images/preview.png'),
-        'toolbar'
-      );
-      $this->add_button(array(
-        'command' => 'plugin.calendar_datepicker',
-        'href' => '#',
-        'id' => 'dp_position',
-        'title' => 'calendar.selectdate',
-        'class' => 'date-pick',
-        'imagepas' => 'skins/' . $skin . '/images/calendar.png',
-        'imageact' => 'skins/' . $skin . '/images/calendar.png'),
         'toolbar'
       );
       $this->add_button(array(
